@@ -1,45 +1,52 @@
 "use client";
-import { Moon, Sun } from "lucide-react";
+
+import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+
+const modes = [
+  { value: "light", label: "Light", icon: Sun },
+  { value: "system", label: "System", icon: Monitor },
+  { value: "dark", label: "Dark", icon: Moon },
+] as const;
 
 export function ModeToggle() {
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
+  const activeTheme = theme ?? "system";
+  const activeIndex = Math.max(
+    modes.findIndex((mode) => mode.value === activeTheme),
+    0,
+  );
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            variant="outline"
-            size="icon"
-            className="relative"
-            aria-label="Toggle theme"
-          />
-        }
-      >
-        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-        <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-        <span className="sr-only">Toggle theme</span>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div
+      className="relative grid grid-cols-3 rounded-full border border-border bg-background p-1 shadow-sm"
+      role="radiogroup"
+      aria-label="Theme"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute top-1 left-1 size-8 rounded-full bg-muted transition-transform duration-200 ease-out"
+        style={{ transform: `translateX(${activeIndex * 2}rem)` }}
+      />
+
+      {modes.map(({ value, label, icon: Icon }) => (
+        <button
+          key={value}
+          type="button"
+          role="radio"
+          aria-label={label}
+          aria-checked={activeTheme === value}
+          onClick={() => setTheme(value)}
+          className={cn(
+            "relative z-10 flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors",
+            activeTheme === value && "text-foreground",
+          )}
+        >
+          <Icon className="size-4" aria-hidden="true" />
+        </button>
+      ))}
+    </div>
   );
 }

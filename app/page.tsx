@@ -1,9 +1,31 @@
 import { connection } from "next/server";
 import { GripVertical, Link as LinkIcon } from "lucide-react";
 
+import { GitHub } from "@/components/icons/github";
+import { NPM } from "@/components/icons/npm";
+import { Telegram } from "@/components/icons/telegram";
+import { ModeToggle } from "@/components/mode-toggle";
 import { projects } from "@/constants/projects";
 import { Separator } from "@/components/ui/separator";
 import { getRandomSoftwareNews } from "@/lib/software-news";
+
+const socials = [
+  {
+    name: "GitHub",
+    url: "https://github.com/DavidAsrorxonov",
+    icon: GitHub,
+  },
+  {
+    name: "npm",
+    url: "https://www.npmjs.com/~david021106",
+    icon: NPM,
+  },
+  {
+    name: "Telegram",
+    url: "https://t.me/whoisdave02",
+    icon: Telegram,
+  },
+];
 
 export default async function Home() {
   await connection();
@@ -80,6 +102,27 @@ export default async function Home() {
             )}
           </div>
         </section>
+
+        <Separator className="my-5" />
+
+        <footer className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            {socials.map(({ name, url, icon: Icon }) => (
+              <a
+                key={name}
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={name}
+                className="flex size-8 items-center justify-center rounded-full text-foreground transition-colors hover:bg-muted"
+              >
+                <Icon className="size-4" aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+
+          <ModeToggle />
+        </footer>
       </section>
     </main>
   );
