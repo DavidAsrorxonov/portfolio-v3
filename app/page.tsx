@@ -33,7 +33,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-background px-5 py-8 text-foreground sm:py-12">
-      <section className="mx-auto w-full max-w-2xl">
+      <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-2xl flex-col sm:min-h-[calc(100vh-6rem)]">
         <h1 className="text-xl font-medium leading-snug sm:text-2xl">
           Hello, My name is Dovudkhon. I own a computer and I build stuff
         </h1>
@@ -103,26 +103,28 @@ export default async function Home() {
           </div>
         </section>
 
-        <Separator className="my-5" />
+        <div className="mt-auto pt-5">
+          <Separator className="mb-5" />
 
-        <footer className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            {socials.map(({ name, url, icon: Icon }) => (
-              <a
-                key={name}
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={name}
-                className="flex size-8 items-center justify-center rounded-full text-foreground transition-colors hover:bg-muted"
-              >
-                <Icon className="size-4" aria-hidden="true" />
-              </a>
-            ))}
-          </div>
+          <footer className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              {socials.map(({ name, url, icon: Icon }) => (
+                <a
+                  key={name}
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={name}
+                  className="flex size-8 items-center justify-center rounded-full text-foreground transition-colors hover:bg-muted"
+                >
+                  <Icon className="size-4" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
 
-          <ModeToggle />
-        </footer>
+            <ModeToggle />
+          </footer>
+        </div>
       </section>
     </main>
   );
