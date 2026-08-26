@@ -17,4 +17,10 @@ export const projects = [
     description:
       "A minimalist local-first clock and productivity app that brings together a world clock, countdown timer, stopwatch, Pomodoro timer, alarm system, and local calendar in one clean workspace.",
   },
+  {
+    name: "SiftForge",
+    url: "https://siftforge.dovudkhon.com",
+    description:
+      "A safe, cross-platform CLI for organizing cluttered directories with preview, apply, history, and undo.",
+  },
 ];
