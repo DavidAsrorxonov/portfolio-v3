@@ -55,15 +55,20 @@ export async function getRandomSoftwareNews(
 }
 
 async function getHackerNewsItem(id: number) {
-  const response = await fetch(`${HACKER_NEWS_API_URL}/item/${id}.json`, {
-    cache: "no-store",
-  });
+  try {
+    const response = await fetch(`${HACKER_NEWS_API_URL}/item/${id}.json`, {
+      cache: "no-store",
+    });
 
-  if (!response.ok) {
+    if (!response.ok) {
+      return null;
+    }
+
+    return (await response.json()) as HackerNewsItem | null;
+  } catch {
+    // Skip this story without discarding other successful requests.
     return null;
   }
-
-  return (await response.json()) as HackerNewsItem | null;
 }
 
 function shuffle<T>(items: T[]) {
