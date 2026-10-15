@@ -1,5 +1,11 @@
 export const projects = [
   {
+    name: "Rounza",
+    url: "https://rounza.app",
+    description:
+      "A thoughtful home for your job search, from the first application to the final round.",
+  },
+  {
     name: "BaseForge",
     url: "https://baseforge.dovudkhon.com",
     description:
