@@ -1,13 +1,14 @@
-import { connection } from "next/server";
-import { GripVertical, Link as LinkIcon } from "lucide-react";
+import { Suspense } from "react";
+import { GripVertical } from "lucide-react";
 
 import { GitHub } from "@/components/icons/github";
 import { NPM } from "@/components/icons/npm";
 import { Telegram } from "@/components/icons/telegram";
 import { ModeToggle } from "@/components/mode-toggle";
+import { SoftwareNews } from "@/components/software-news";
+import { ListSkeleton } from "@/components/list-skeleton";
 import { projects } from "@/constants/projects";
 import { Separator } from "@/components/ui/separator";
-import { getRandomSoftwareNews } from "@/lib/software-news";
 
 const socials = [
   {
@@ -27,10 +28,7 @@ const socials = [
   },
 ];
 
-export default async function Home() {
-  await connection();
-  const news = await getRandomSoftwareNews();
-
+export default function Home() {
   return (
     <main className="min-h-screen bg-background px-5 py-8 text-foreground sm:py-12">
       <section className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-2xl flex-col sm:min-h-[calc(100vh-6rem)]">
@@ -75,31 +73,9 @@ export default async function Home() {
           </h2>
 
           <div className="mt-2">
-            {news.length > 0 ? (
-              news.map((item, index) => (
-                <div key={item.id}>
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex gap-3 py-3"
-                  >
-                    <LinkIcon
-                      aria-hidden="true"
-                      className="mt-1 size-3.5 shrink-0 text-muted-foreground"
-                    />
-                    <h3 className="text-xs leading-5 group-hover:underline sm:text-sm">
-                      {item.title}
-                    </h3>
-                  </a>
-                  {index < news.length - 1 ? <Separator /> : null}
-                </div>
-              ))
-            ) : (
-              <p className="py-3 text-xs text-muted-foreground sm:text-sm">
-                News is unavailable right now.
-              </p>
-            )}
+            <Suspense fallback={<ListSkeleton label="Loading news" />}>
+              <SoftwareNews />
+            </Suspense>
           </div>
         </section>
 
